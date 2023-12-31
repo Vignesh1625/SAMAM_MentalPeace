@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>MainPage</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/mainPage.css">
+</head>
+<body onload="getLocation()">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="container">
+        <header>
+            <span class="name">SAMAM</span>
+            <div>
+                <nav>
+                    <ul>
+                        <li><a href="#Skills"><button type="button">AboutUs</button></a></li>
+                        <li><a href="#Contact"><button type="button">Contact</button></a></li>
+                    </ul>
+                </nav>  
+            </div>
+        </header>
+    </div>
+    <span class="info">Enter Your Details:</span>
+    <form class="form" action="/submit_form" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        
+        <label for="age">Age:</label><br>
+        <input type="number" id="age" name="age"><br>
+        
+        <label for="gender">Gender:</label><br>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select><br>
+        <label for="em"></label><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="footer">
+        <hr>
+        <span>@SAMAM</span>
+    </div>
+    <script src="../static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 1rem 8rem 1rem 8rem;
+}
+.container{
+    margin-bottom: 4rem;
+}
+header{
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 1fr auto;
+    padding: 1rem;
+}
+header ul{
+    display: inline-flex;
+    justify-content: center ;
+    list-style: none;
+
+}
+.name{
+    font-size: 2rem;
+    font-weight:bolder;
+    color: black;
+}
+button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+button:hover {
+    color: gray;
+}
+
+button:active {
+    color: grey;
+    margin-left: 1rem;
+}
+.info{
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 2rem 4rem 2rem 4rem;
+}
+.questionForm{
+    padding: 1rem;
+    margin: 2rem 4rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+}
+label{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+select{
+    font-size: 1rem;
+    font-weight: lighter;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100%;
+}
+input{
+    font-size: 1rem;
+    font-weight: lighter;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid black;
+}

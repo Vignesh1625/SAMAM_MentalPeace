@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ResultPage</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/mainPage.css">
+        <style>
+            .result {
+                font-size: 30px;
+                font-weight: bold;
+                text-align: center;
+                margin: 5rem 2rem 2rem 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <span class="name">SAMAM</span>
+                <div>
+                    <nav>
+                        <ul>
+                            <li><a href="#Skills"><button type="button">AboutUs</button></a></li>
+                            <li><a href="#Contact"><button type="button">Contact</button></a></li>
+                        </ul>
+                    </nav>  
+                </div>
+            </header>
+        </div>
+        <div class="result">
+            Hello {% if gender == "male" %}sir{% else %}mam{% endif %}, {{ Name }}, 
+            you are having mental health result as {{ result }} and your atmosphere 
+            result is {{ atmospherePrediction }}.
+        </div>
+        
+        <!-- footer -->
+        <div class="footer">
+            <hr>
+            <span>@SAMAM</span>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
