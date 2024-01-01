@@ -1,16 +1,24 @@
 from flask import Flask, render_template, request,session
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 import geocoder
 import requests
 import json
 import pickle
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import pytz
+
 
 app = Flask(__name__)
 app.secret_key = "778031a659c117f6ab82986676e24271"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///samamdata.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///SamamDataBase.db'
 db = SQLAlchemy(app)
+
+def get_current_date():
+    return datetime.now(pytz.timezone('Asia/Kolkata')).date()
+
+def get_current_time():
+    return datetime.now(pytz.timezone('Asia/Kolkata')).time()
 
 #creating a table in our database
 class UserDetails(db.Model):
@@ -19,8 +27,8 @@ class UserDetails(db.Model):
     email = db.Column(db.String(120), unique=False, nullable=False)
     age = db.Column(db.Integer, unique=False, nullable=False)
     gender = db.Column(db.String(80), unique=False, nullable=False)
-    date = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())
-    time = db.Column(db.Time, nullable=False, default=datetime.utcnow().time())
+    date = db.Column(db.Date, nullable=False, default=get_current_date)
+    time = db.Column(db.Time, nullable=False, default=get_current_time)
     latitude = db.Column(db.Float, unique=False, nullable=False)
     longitude = db.Column(db.Float, unique=False, nullable=False)
 
@@ -77,6 +85,8 @@ def submit_form():
     age_str = request.form.get('age')
     gender = request.form.get('gender')
     email = request.form.get('email')
+
+    #getting user location using ip address
     g = geocoder.ip('me')
     lat, lon = g.latlng
     latitude = lat
