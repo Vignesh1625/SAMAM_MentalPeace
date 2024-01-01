@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request,session
+import os
+from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import geocoder
@@ -7,11 +8,17 @@ import json
 import pickle
 import pytz
 
-
+# Initialize Flask app
 app = Flask(__name__)
 app.secret_key = "778031a659c117f6ab82986676e24271"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///SamamDataBase.db'
+# Retrieve database connection string from environment variable
+DATABASE_URL = os.environ.get('AZURE_POSTGRESQL_CONNECTIONSTRING')
+
+# Configure SQLAlchemy database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+
+# Initialize SQLAlchemy database
 db = SQLAlchemy(app)
 
 def get_current_date():
@@ -20,9 +27,9 @@ def get_current_date():
 def get_current_time():
     return datetime.now(pytz.timezone('Asia/Kolkata')).time()
 
-#creating a table in our database
+# Define database model
 class UserDetails(db.Model):
-    id = db.Column(db.Integer, primary_key=True ,autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=False, nullable=False)
     age = db.Column(db.Integer, unique=False, nullable=False)
