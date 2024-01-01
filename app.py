@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request,session
+from flask import Flask, render_template, request,session,jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, text
 from datetime import datetime
 import geocoder
 import requests
@@ -123,6 +124,43 @@ def submit_form():
     else:
         return render_template('./oldPage.html')
     
+
+
+@app.route('/login_form', methods=['GET', 'POST'])
+def loginPage():
+    error = 'No'
+    return render_template('./loginPage.html',error=error)
+
+
+@app.route('/submit_login_form', methods=['GET', 'POST'])
+def submit_login_form():
+    email = request.form.get('username')
+    password = request.form.get('password')
+    print(email, password)
+    if ( email == "eligetivignesh@gmail.com" or email == "Vignesh1625" ) and password == "Vignesh1625":
+        return adminPage()
+    else:
+        return render_template('./loginPage.html',error="Yes")
+
+
+@app.route('/adminPage', methods=['GET', 'POST'])
+def adminPage():
+    users = UserDetails.query.all()
+    for user in users:
+        print(user)  
+    return render_template('./adminPage.html', users=users)
+
+@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = UserDetails.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({"message": "User deleted successfully"}), 200
+
 
 @app.route('/teenAgeSubmit', methods=['GET', 'POST'])
 def teenAgeSubmit():

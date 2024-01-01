@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>loginPage</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/mainPage.css">
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container">
+            <header>
+                <span class="name">SAMAM</span>
+                <div>
+                    <nav>
+                        <ul>
+                            <li><a href="#Skills"><button type="button">AboutUs</button></a></li>
+                            <li><a href="#Contact"><button type="button">Contact</button></a></li>
+                            <li><a href="./loginPage.html"><button type="button">Admin Page</button></a></li>
+                        </ul>
+                    </nav>  
+                </div>
+            </header>
+        </div>
+        <div class="result">
+            <center>
+                {% if error=="Yes" %}
+                    Error: Enter Correct Details
+                {% endif %}
+            </center>
+        </div>
+        
+            <form class="loginForm" action="/submit_login_form" method="post">
+                <label class="logininfo">Enter Your Details:</label>
+                <label for=""></label>
+                <label for="username">UserName:</label>
+                <input type="text" id="username" name="username">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+                <label for="em"></label>
+                <input type="submit" value="Submit">
+            </form>
+        
+        <div class="footer">
+            <hr>
+            <span>@SAMAM</span>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>

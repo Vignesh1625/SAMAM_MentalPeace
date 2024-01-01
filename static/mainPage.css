@@ -73,3 +73,30 @@ select{
 .footer{
     margin: 15rem 0rem 0rem 0rem;
 }
+
+.loginForm{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20rem;
+    margin-right: 21rem;
+    row-gap: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.login{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.logininfo{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
