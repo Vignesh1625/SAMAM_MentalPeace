@@ -3,14 +3,34 @@ import geocoder
 import requests
 import json
 import pickle
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "778031a659c117f6ab82986676e24271"
 
-latitude = 0
-longitude = 0
-api_key = "0c6367c0ffc59182e0e17fbbe7ced418"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///samamdata.db'
+db = SQLAlchemy(app)
 
+#creating a table in our database
+class UserDetails(db.Model):
+    id = db.Column(db.Integer, primary_key=True ,autoincrement=True)
+    username = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
+    age = db.Column(db.Integer, unique=False, nullable=False)
+    gender = db.Column(db.String(80), unique=False, nullable=False)
+    date = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())
+    time = db.Column(db.Time, nullable=False, default=datetime.utcnow().time())
+    latitude = db.Column(db.Float, unique=False, nullable=False)
+    longitude = db.Column(db.Float, unique=False, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+    
+
+api_key = "0c6367c0ffc59182e0e17fbbe7ced418"
+latitude = 0.0
+longitude = 0.0
 #loding models
 with open('./data/atmospherepickle.pkl', 'rb') as f:
     atmospherePickle = pickle.load(f)
@@ -48,6 +68,7 @@ def get_weather(api_key, lat, lon):
 
 @app.route('/')
 def home():
+    users = UserDetails.query.all()
     return render_template('./mainPage.html')
 
 @app.route('/submit_form', methods=['GET', 'POST'])
@@ -55,19 +76,35 @@ def submit_form():
     name = request.form.get('name')
     age_str = request.form.get('age')
     gender = request.form.get('gender')
-    session['name'] = name
-    session['gender'] = gender
-
-    print(gender)
+    email = request.form.get('email')
     g = geocoder.ip('me')
     lat, lon = g.latlng
     latitude = lat
     longitude = lon
     print(f"lat: {lat}, long: {lon}")
+
     try:
         age = int(age_str)
     except ValueError:
         return "Invalid age value. Please enter a valid number."
+    
+    #adding new user to database
+    try:
+        new_user = UserDetails(
+            username=name,
+            email=email,
+            age=age,
+            gender=gender,
+            latitude=lat,
+            longitude=lon
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        UserDetails.query.all()
+        print("User added to database")
+    except :
+        print("Error in adding user to database")
+    
 
     if 10 <= age < 20:
         return render_template('./teenPage.html')
@@ -97,8 +134,8 @@ def teenAgeSubmit():
 
 @app.route('/adultAgeSubmit', methods=['GET', 'POST'])
 def adultAgeSubmit():
-    print("lat :", latitude, "long :", longitude)
-    tempature,humidity = get_weather(api_key, latitude, longitude)
+    print("lat :", latitude, "long :",  longitude)
+    tempature,humidity = get_weather(api_key, latitude,  longitude)
     q1 = int(request.form.get('question1'))
     q2 = int(request.form.get('question2'))
     q3 = int(request.form.get('question3'))
@@ -115,8 +152,8 @@ def adultAgeSubmit():
 
 @app.route('/oldAgeSubmit', methods=['GET', 'POST'])
 def oldAgeSubmit():
-    print("lat :", latitude, "long :", longitude)
-    tempature,humidity = tempature,humidity = get_weather(api_key, latitude, longitude)
+    print("lat :", latitude, "long :",  longitude)
+    tempature,humidity = tempature,humidity = get_weather(api_key, latitude,  longitude)
     q1 = int(request.form.get('question1'))
     q2 = int(request.form.get('question2'))
     q3 = int(request.form.get('question3'))
@@ -125,7 +162,7 @@ def oldAgeSubmit():
     q6 = request.form.get('question6')
 
     tempature = celsius_to_fahrenheit(tempature)
-    atmospherePrediction = atmospherePickle.predict(humidity,tempature,q6)
+    atmospherePrediction = atmospherePickle.predict([[humidity,tempature,q6]])
     print("atmospherePrediction Stress Level:",atmospherePrediction)
 
     result = q1+q2+q3+q4+q5
@@ -134,4 +171,6 @@ def oldAgeSubmit():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
