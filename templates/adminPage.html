@@ -10,7 +10,7 @@
         <title>AdminPage</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="../static/questions.css">
         <style>
             th {
                 padding: 10px;
@@ -20,6 +20,16 @@
                 height: 30px;  
                 text-align: center;
             }
+
+            #addQuestionRow #newQuestionText,
+            #addQuestionRow #newDisQuestionText {
+                width: 900px;
+            }
+            #addQuestionRow #newQuestionId,
+            #addQuestionRow #newDisQuestionId {
+                width: 80%;
+            }
+
         </style>
         
     </head>
@@ -27,7 +37,32 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+
+        <div class="container">
+            <header>
+                <span><a href="/"><button class="name" type="button">SAMAM</button></a></span>
+                <div>
+                    <nav>
+                        <ul>
+                            <li><a href="#Skills"><button type="button">AboutUs</button></a></li>
+                            <li><a href="#Contact"><button type="button">Contact</button></a></li>
+                            <li>
+                                <form action="/login_form" method="post">
+                                    <button type="submit" value="submit">Admin Page</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form action="/character_form" method="post">
+                                    <button type="submit" value="submit">Character Page</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>  
+                </div>
+            </header>
+        </div>    
         <h1>Admin Page</h1>
+        <!-- Users Table -->
         <table border="1">
             <thead>
                 <tr>
@@ -39,7 +74,8 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Latitude</th>
-                    <th>Longtude</th>
+                    <th>Longitude</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,32 +89,72 @@
                     <td>{{ user.date }}</td>
                     <td>{{ user.time }}</td>
                     <td>{{ user.latitude }}</td>
-                    <td>{{ user.longtude }}</td>
+                    <td>{{ user.longitude }}</td>
                     <td>
                         <button type="button" onclick="deleteRow(this, '{{ user.id }}')">Delete</button>
-                    </td>    
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <script>
-            function deleteRow(buttonElement, userId) {
-            fetch(`/delete_user/${userId}`, {
-                method: 'DELETE',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    var row = buttonElement.closest('tr');
-                    row.remove();
-                } else if (data.error) {
-                    console.error(data.error);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-        </script>
+
+        <h1>Character Questions :</h1>
+        <table border="1" id="CharacterQuestionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Question</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in CharacterQuestions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.question }}</td>
+                    <td>
+                        <button type="button" onclick="deleteQuestion(this, '{{ question.id }}')">Delete</button>
+                    </td>    
+                </tr>
+                {% endfor %}
+                <!-- Add a row for adding a new question -->
+                <tr id="addQuestionRow">
+                    <td><input type="text" id="newQuestionId"></td>
+                    <td><input type="text" id="newQuestionText"></td>
+                    <td><button type="button" onclick="addNewQuestion()">Add</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h1>Disorder Questions :</h1>
+        <table border="1" id="DisorderQuestionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Question</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in DisorderQuestions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.question }}</td>
+                    <td>
+                        <button type="button" onclick="deleteDisQuestion(this, '{{ question.id }}')">Delete</button>
+                    </td>    
+                </tr>
+                {% endfor %}
+                <!-- Add a row for adding a new question -->
+                <tr id="addQuestionRow">
+                    <td><input type="text" id="newDisQuestionId"></td>
+                    <td><input type="text" id="newDisQuestionText"></td>
+                    <td><button type="button" onclick="addNewDisQuestion()">Add</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <script src="../static/script.js"></script>
     </body>
 </html>

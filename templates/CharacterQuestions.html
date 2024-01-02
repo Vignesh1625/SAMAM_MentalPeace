@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html class="no-js">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
 <head>
     <meta charset="utf-8">
-    <title>MainPage</title>
+    <title>teenAgePage</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/mainPage.css">
+    <link rel = "stylesheet" href = "../static/questions.css">
 </head>
-<body onload="getLocation()">
+<body>
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container">
         <header>
-            <span class="name">SAMAM</span>
+            <span><a href="/"><button class="name" type="button">SAMAM</button></a></span>
             <div>
                 <nav>
                     <ul>
@@ -23,42 +27,38 @@
                             <form action="/login_form" method="post">
                                 <button type="submit" value="submit">Admin Page</button>
                             </form>
-                        </li>         
+                        </li>
                         <li>
                             <form action="/character_form" method="post">
                                 <button type="submit" value="submit">Character Page</button>
                             </form>
-                        </li>               
+                        </li>
                     </ul>
                 </nav>  
             </div>
         </header>
+    </div>      
+    <div class="container">
+        <span class="info">Answer these Questions: Character</span>
+        <form class="questionForm" action="/character_submit" method="post">
+            {% for question in questions %} <!-- Assuming 'questions' is the list you want to iterate over -->
+            <label for="question {{ question.id }}">{{ question.question }}</label>
+            <input type="number" min="1" max="10" id="question {{ question.id }}" name="question {{ question.id }}" required>
+            {% endfor %}
+            <label for="em"></label>
+            <input type="submit" value="Submit">
+        </form>
     </div>
-    <span class="info">Enter Your Details:</span>
-    <form class="form" action="/submit_form" method="post">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        
-        <label for="age">Age:</label><br>
-        <input type="number" id="age" name="age"><br>
-        
-        <label for="gender">Gender:</label><br>
-        <select id="gender" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-        </select><br>
-        <label for="em"></label><br>
-        <input type="submit" value="Submit">
-    </form>
+    
 
+    <!--Fotter-->
     <div class="footer">
         <hr>
         <span>@SAMAM</span>
     </div>
-    <script src="../static/script.js"></script>
+    <script src="" async defer></script>
 </body>
 </html>
+
+

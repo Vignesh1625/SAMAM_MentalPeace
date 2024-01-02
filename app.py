@@ -31,11 +31,23 @@ class UserDetails(db.Model):
     date = db.Column(db.Date, nullable=False, default=get_current_date)
     time = db.Column(db.Time, nullable=False, default=get_current_time)
     latitude = db.Column(db.Float, unique=False, nullable=False)
-    longitude = db.Column(db.Float, unique=False, nullable=False)
+    longitude = db.Column(db.Float, unique=False, nullable=True,default=100)
 
     def __repr__(self):
         return f'<User {self.username}>'
-    
+
+class CharacterQuestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True ,autoincrement=True)
+    question = db.Column(db.String(1000), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.id}>'
+class DisorderQuestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True ,autoincrement=True)
+    question = db.Column(db.String(1000), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.id}>'
 
 api_key = "0c6367c0ffc59182e0e17fbbe7ced418"
 latitude = 0.0
@@ -101,14 +113,17 @@ def submit_form():
     
     #adding new user to database
     try:
+        print(f"latitude: {lat}, longtude: {lon}")
+
         new_user = UserDetails(
             username=name,
             email=email,
             age=age,
             gender=gender,
             latitude=lat,
-            longitude=lon
+            longitude=lon,
         )
+
         db.session.add(new_user)
         db.session.commit()
         UserDetails.query.all()
@@ -145,22 +160,113 @@ def submit_login_form():
 
 @app.route('/adminPage', methods=['GET', 'POST'])
 def adminPage():
+    CharQuestions = CharacterQuestions.query.all()
     users = UserDetails.query.all()
-    for user in users:
-        print(user)  
-    return render_template('./adminPage.html', users=users)
+    DisQuestions = DisorderQuestions.query.all()
 
+
+    return render_template('./adminPage.html', users=users,CharacterQuestions=CharQuestions,DisorderQuestions=DisQuestions)
+
+
+#adding question to database
+@app.route('/add_question', methods=['POST'])
+def add_question():
+    try:
+        data = request.json
+        new_question = CharacterQuestions(id=data['id'], question=data['question'])
+        db.session.add(new_question)
+        db.session.commit()
+        return jsonify(success=True), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
+#adding question to database
+@app.route('/add_Disquestions', methods=['POST'])
+def add_Disquestion():
+    try:
+        data = request.json
+        new_question = DisorderQuestions(id=data['id'], question=data['question'])
+        db.session.add(new_question)
+        db.session.commit()
+        return jsonify(success=True), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+    
+# delete question from database
+@app.route('/delete_question/<int:question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    question = CharacterQuestions.query.get(question_id)
+    if not question:
+        return jsonify({"error": "Question not found"}), 404
+
+    db.session.delete(question)  # pass the question object
+    db.session.commit()
+
+    return jsonify({"message": "Question deleted successfully"}), 200
+
+
+# delete question from database
+@app.route('/deleteDis_question/<int:question_id>', methods=['DELETE'])
+def deleteDis_question(question_id):
+    question = DisorderQuestions.query.get(question_id)
+    if not question:
+        return jsonify({"error": "Question not found"}), 404
+
+    db.session.delete(question)  # pass the question object
+    db.session.commit()
+
+    return jsonify({"message": "Question deleted successfully"}), 200
+
+
+# delete user from database
 @app.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = UserDetails.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    db.session.delete(user)
+    db.session.delete(user)  # pass the user object
     db.session.commit()
 
     return jsonify({"message": "User deleted successfully"}), 200
 
+
+
+@app.route('/character_form', methods=['GET', 'POST'])
+def character_form():
+    questions  = CharacterQuestions.query.all()
+    for i in range (0,len(questions)):
+        print(questions[i].question)
+
+    return render_template('./CharacterQuestions.html',questions = questions)
+
+@app.route('/character_submit', methods=['GET', 'POST'])	
+def characterSubmit():
+    latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
+    questions = CharacterQuestions.query.all()
+    noOfQuestions = len(questions)
+    question_array = [0] * noOfQuestions
+    try:
+        for i in range (0,noOfQuestions):
+            question_array[i] = request.form.get("question "+str(questions[i].id))
+        print(question_array)
+        for i in range(0,noOfQuestions):
+            print(questions[i].question,"  ",question_array[i])
+        if latest_user.gender == 'male' :
+            features = [2, latest_user.age] + question_array
+        else :
+            features = [1, latest_user.age] + question_array
+        result = characterPickle.predict([features])
+        label_mapping = { 0 : 'dependable',
+                          1 : 'extraverted',
+                          2 :'lively',
+                          3 :'responsible',
+                          4 : 'serious'
+                        }
+        result = "Your character prediction is "+label_mapping[result[0]]
+        return render_template('./resultPage.html', result=result, Name=latest_user.username, gender=latest_user.gender)
+    except ValueError:
+        return "Please enter valid numbers for the questions."
 
 @app.route('/teenAgeSubmit', methods=['GET', 'POST'])
 def teenAgeSubmit():
