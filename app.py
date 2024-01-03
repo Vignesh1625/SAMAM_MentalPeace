@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request,session,jsonify
+from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
 from datetime import datetime
@@ -92,6 +93,11 @@ def home():
     users = UserDetails.query.all()
     return render_template('./mainPage.html')
 
+@app.route('/Page2')
+def page2():
+    return render_template('Page2.html')
+
+
 @app.route('/submit_form', methods=['GET', 'POST'])
 def submit_form():
     name = request.form.get('name')
@@ -126,13 +132,15 @@ def submit_form():
 
         db.session.add(new_user)
         db.session.commit()
+        session['user_id'] = new_user.id 
         UserDetails.query.all()
         print("User added to database")
     except :
         print("Error in adding user to database")
     
+    return redirect(url_for('page2'))
 
-    return render_template('./Page2.html')
+
     
 
 
@@ -245,7 +253,8 @@ def disorder_form():
 
 @app.route('/character_submit', methods=['GET', 'POST'])	
 def characterSubmit():
-    latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
+    user_id = session.get('user_id')  # Fetch user ID from session
+    latest_user = UserDetails.query.get(user_id)
     questions = CharacterQuestions.query.all()
     noOfQuestions = len(questions)
     question_array = [0] * noOfQuestions
@@ -273,7 +282,8 @@ def characterSubmit():
 
 @app.route('/disorder_submit', methods=['GET', 'POST'])
 def disorderSubmit():
-    latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
+    user_id = session.get('user_id')  # Fetch user ID from session
+    latest_user = UserDetails.query.get(user_id)
     questions = DisorderQuestions.query.all()
     noOfQuestions = len(questions)
     question_array = [0] * noOfQuestions
