@@ -6,10 +6,31 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>teenAgePage</title>
+    <title>oldAgePage</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel = "stylesheet" href = "../static/questions.css">
+    <style>
+        .container:nth-of-type(2){
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 5rem;
+        }
+        .container:nth-of-type(2) form{
+            border-radius: 15px;
+            border: solid 2px black;
+            height: 15rem;
+            text-align: center;
+            margin: 3rem;
+        }
+        .container:nth-of-type(2) form span{
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .container:nth-of-type(2) form button{
+           margin-top: 5rem;
+        }
+    </style>
 </head>
 <body>
     <!--[if lt IE 7]>
@@ -32,22 +53,21 @@
                 </nav>  
             </div>
         </header>
-    </div>      
+    </div>    
     <div class="container">
-        <span class="info">Answer these Questions: Character</span>
-        <form class="questionForm" action="/character_submit" method="post">
-            {% for question in questions %} <!-- Assuming 'questions' is the list you want to iterate over -->
-            <label for="question {{ question.id }}">{{ question.question }}</label>
-            <input type="number" min="1" max="10" id="question {{ question.id }}" name="question {{ question.id }}" required>
-            {% endfor %}
-            <label for="em"></label>
-            <input type="submit" value="Submit">
+        <form class="character" action="/character_form" method="post">
+            <button type="submit" value="submit">
+                <span class="">Know your Character</span>
+            </button>
+            
+        </form>
+        <form class="disorder" action="/disorder_form" method="post">
+            <button type="submit" value="submit">
+                <span class="">Know your Disorder</span>
+            </button>
         </form>
     </div>
 
-    
-
-    <!--Fotter-->
     <div class="footer">
         <hr>
         <span>@SAMAM</span>
@@ -55,5 +75,3 @@
     <script src="" async defer></script>
 </body>
 </html>
-
-

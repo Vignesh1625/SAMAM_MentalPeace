@@ -34,12 +34,16 @@
         </header>
     </div>      
     <div class="container">
-        <span class="info">Answer these Questions: Character</span>
-        <form class="questionForm" action="/character_submit" method="post">
-            {% for question in questions %} <!-- Assuming 'questions' is the list you want to iterate over -->
-            <label for="question {{ question.id }}">{{ question.question }}</label>
-            <input type="number" min="1" max="10" id="question {{ question.id }}" name="question {{ question.id }}" required>
-            {% endfor %}
+        <span class="info">Answer these Questions: Disorder</span>
+        <form class="questionForm" action="/disorder_submit" method="post">
+            {% for question in questions %}
+            <label for="question{{ question.id }}">{{ question.question }}</label>
+            <select id="question{{ question.id }}" name="question{{ question.id }}" required>
+                <option value="" disabled selected>select</option>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+            {% endfor %}        
             <label for="em"></label>
             <input type="submit" value="Submit">
         </form>

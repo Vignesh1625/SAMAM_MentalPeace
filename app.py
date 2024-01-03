@@ -132,12 +132,7 @@ def submit_form():
         print("Error in adding user to database")
     
 
-    if 10 <= age < 20:
-        return render_template('./teenPage.html')
-    elif 20 <= age < 40:
-        return render_template('./adultPage.html')
-    else:
-        return render_template('./oldPage.html')
+    return render_template('./Page2.html')
     
 
 
@@ -240,6 +235,14 @@ def character_form():
 
     return render_template('./CharacterQuestions.html',questions = questions)
 
+@app.route('/disorder_form', methods=['GET', 'POST'])
+def disorder_form():
+    questions  = DisorderQuestions.query.all()
+    for i in range (0,len(questions)):
+        print(questions[i].question)
+
+    return render_template('./DisorderQuestions.html',questions = questions)
+
 @app.route('/character_submit', methods=['GET', 'POST'])	
 def characterSubmit():
     latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
@@ -248,10 +251,10 @@ def characterSubmit():
     question_array = [0] * noOfQuestions
     try:
         for i in range (0,noOfQuestions):
-            question_array[i] = request.form.get("question "+str(questions[i].id))
-        print(question_array)
-        for i in range(0,noOfQuestions):
-            print(questions[i].question,"  ",question_array[i])
+            question_array[i] = int(request.form.get("question "+str(questions[i].id)))
+
+        if len(question_array) != 5:
+            return "Error in number of questions with feature array"
         if latest_user.gender == 'male' :
             features = [2, latest_user.age] + question_array
         else :
@@ -268,72 +271,38 @@ def characterSubmit():
     except ValueError:
         return "Please enter valid numbers for the questions."
 
-@app.route('/teenAgeSubmit', methods=['GET', 'POST'])
-def teenAgeSubmit():
-    # Retrieve the latest user details from the database
+@app.route('/disorder_submit', methods=['GET', 'POST'])
+def disorderSubmit():
     latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
-    latitude = latest_user.latitude
-    longitude = latest_user.longitude
-
-    print("lat :", latitude, "long :", longitude)
-    temperature, humidity = get_weather(api_key, latitude, longitude)
-    q1 = int(request.form.get('question1'))
-    q2 = int(request.form.get('question2'))
-    q3 = int(request.form.get('question3'))
-    q4 = int(request.form.get('question4'))
-    q5 = int(request.form.get('question5'))
-    q6 = request.form.get('question6')
-
-    temperature = celsius_to_fahrenheit(temperature)
-    atmospherePrediction = atmospherePickle.predict([[humidity, temperature, q6]])
-    print("atmospherePrediction Stress Level:", atmospherePrediction)
-
-    result = q1 + q2 + q3 + q4 + q5
-    return render_template('./resultPage.html', result=result, atmospherePrediction=atmospherePrediction, Name=latest_user.username, gender=latest_user.gender)
-
-@app.route('/adultAgeSubmit', methods=['GET', 'POST'])
-def adultAgeSubmit():
-    latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
-    latitude = latest_user.latitude
-    longitude = latest_user.longitude
-
-    print("lat :", latitude, "long :",  longitude)
-    tempature,humidity = get_weather(api_key, latitude,  longitude)
-    q1 = int(request.form.get('question1'))
-    q2 = int(request.form.get('question2'))
-    q3 = int(request.form.get('question3'))
-    q4 = int(request.form.get('question4'))
-    q5 = int(request.form.get('question5'))
-    q6 = request.form.get('question6')
-    
-    tempature = celsius_to_fahrenheit(tempature)
-    atmospherePrediction = atmospherePickle.predict([[humidity,tempature,q6]])
-    print("atmospherePrediction Stress Level:",atmospherePrediction)
-
-    result = q1+q2+q3+q4+q5
-    return render_template('./resultPage.html', result=result, atmospherePrediction=atmospherePrediction, Name=latest_user.username, gender=latest_user.gender)
-
-@app.route('/oldAgeSubmit', methods=['GET', 'POST'])
-def oldAgeSubmit():
-    latest_user = UserDetails.query.order_by(UserDetails.id.desc()).first()
-    latitude = latest_user.latitude
-    longitude = latest_user.longitude
-    
-    print("lat :", latitude, "long :",  longitude)
-    tempature,humidity = tempature,humidity = get_weather(api_key, latitude,  longitude)
-    q1 = int(request.form.get('question1'))
-    q2 = int(request.form.get('question2'))
-    q3 = int(request.form.get('question3'))
-    q4 = int(request.form.get('question4'))
-    q5 = int(request.form.get('question5'))
-    q6 = request.form.get('question6')
-
-    tempature = celsius_to_fahrenheit(tempature)
-    atmospherePrediction = atmospherePickle.predict([[humidity,tempature,q6]])
-    print("atmospherePrediction Stress Level:",atmospherePrediction)
-
-    result = q1+q2+q3+q4+q5
-    return render_template('./resultPage.html', result=result, atmospherePrediction=atmospherePrediction, Name=latest_user.username, gender=latest_user.gender)
+    questions = DisorderQuestions.query.all()
+    noOfQuestions = len(questions)
+    question_array = [0] * noOfQuestions
+    try:
+        for i in range(0,noOfQuestions):
+            question_array[i] = int(request.form.get("question"+str(questions[i].id)))
+        if len(question_array) != 26:
+            return "Error in number of questions with feature array"
+        features = question_array + [latest_user.age]
+        result = disorderPickle.predict([features])
+        label_mapping = { 0 : 'ADHD',
+                          1 : 'ASD',
+                          2 : 'Loneliness',
+                          3 : 'MDD',
+                          4 : 'OCD',
+                          5 : 'PDD',
+                          6 : 'PTSD',
+                          7 : 'anexiety',
+                          8 : 'bipolar',
+                          9 : 'eating disorder',
+                         10 : 'psychotic deprission',
+                         11 :'sleeping disorder'
+                        }
+        result_int = int(result)
+        disorder_name = label_mapping[result_int]
+        result = f"You have {disorder_name} disorder"
+        return render_template('./resultPage.html',result=result,Name = latest_user.username, gender = latest_user.gender)
+    except ValueError:
+        return "Please enter valid numbers for the questions."
 
 
 if __name__ == '__main__':

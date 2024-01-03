@@ -59,7 +59,7 @@ function addNewDisQuestion() {
   .then(data => {
       if (data.success) {
           // Update the table with the new question
-          updateQuestionsTable(newQuestionId, newQuestionText);
+          updateDisQuestionsTable(newQuestionId, newQuestionText);
 
           // Clear input fields
           document.getElementById('newDisQuestionId').value = '';
@@ -73,7 +73,7 @@ function addNewDisQuestion() {
   });
 }
 
-function updateQuestionsTable(id, question) {
+function updateDisQuestionsTable(id, question) {
   const tbody = document.querySelector('#DisorderQuestionsTable > tbody');
   const newRow = tbody.insertRow(tbody.rows.length-1); 
   newRow.innerHTML = `
@@ -83,17 +83,6 @@ function updateQuestionsTable(id, question) {
   `;
 }
 
-
-// Helper function to append a new row to the table
-function addNewRowToTable(question) {
-  const tbody = document.querySelector('#questionsTable tbody');
-  const newRow = tbody.insertRow(tbody.rows.length-1);
-  newRow.innerHTML = `
-    <td>${question.id}</td>
-    <td>${question.question}</td>
-    <td><button type="button" onclick="deleteQuestion(this, '${question.id}')">Delete</button></td>
-  `;
-}
 
 
 
