@@ -108,6 +108,10 @@ def submit_form():
     #getting user location using ip address
     g = geocoder.ip('me')
     lat, lon = g.latlng
+    if lat is None :
+        lat = 0
+    if lon is None:
+        lon = 0
     latitude = lat
     longitude = lon
     print(f"lat: {lat}, long: {lon}")
@@ -313,6 +317,7 @@ def disorderSubmit():
         return render_template('./resultPage.html',result=result,Name = latest_user.username, gender = latest_user.gender)
     except ValueError:
         return "Please enter valid numbers for the questions."
+
 
 
 if __name__ == '__main__':
