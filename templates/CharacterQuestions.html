@@ -38,7 +38,7 @@
         <form class="questionForm" action="/character_submit" method="post">
             {% for question in questions %} <!-- Assuming 'questions' is the list you want to iterate over -->
             <label for="question {{ question.id }}">{{ question.question }}</label>
-            <input type="number" min="1" max="10" id="question {{ question.id }}" name="question {{ question.id }}" required>
+            <input type="number" min="1" max="10" id="question {{ question.id }}" name="question {{ question.id }}" placeholder="rate yourself from 1 to 9" required>
             {% endfor %}
             <label for="em"></label>
             <input type="submit" value="Submit">
