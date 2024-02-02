@@ -64,3 +64,57 @@ def oldAgeSubmit():
 
     result = q1+q2+q3+q4+q5
     return render_template('./resultPage.html', result=result, atmospherePrediction=atmospherePrediction, Name=latest_user.username, gender=latest_user.gender)
+
+
+
+
+
+#adding question to database code
+#adding question to database
+@app.route('/add_question', methods=['POST'])
+def add_question():
+    try:
+        data = request.json
+        new_question = CharacterQuestions(id=data['id'], question=data['question'])
+        db.session.add(new_question)
+        db.session.commit()
+        return jsonify(success=True), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
+#adding question to database
+@app.route('/add_Disquestions', methods=['POST'])
+def add_Disquestion():
+    try:
+        data = request.json
+        new_question = DisorderQuestions(id=data['id'], question=data['question'])
+        db.session.add(new_question)
+        db.session.commit()
+        return jsonify(success=True), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+    
+# delete question from database
+@app.route('/delete_question/<int:question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    question = CharacterQuestions.query.get(question_id)
+    if not question:
+        return jsonify({"error": "Question not found"}), 404
+
+    db.session.delete(question)  # pass the question object
+    db.session.commit()
+
+    return jsonify({"message": "Question deleted successfully"}), 200
+
+
+# delete question from database
+@app.route('/deleteDis_question/<int:question_id>', methods=['DELETE'])
+def deleteDis_question(question_id):
+    question = DisorderQuestions.query.get(question_id)
+    if not question:
+        return jsonify({"error": "Question not found"}), 404
+
+    db.session.delete(question)  # pass the question object
+    db.session.commit()
+
+    return jsonify({"message": "Question deleted successfully"}), 200

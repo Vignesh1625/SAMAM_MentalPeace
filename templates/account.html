@@ -12,33 +12,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../static/mainPage.css">
         <style>
-            .container{
+            .accountContainer {
+                margin: 4rem;
+            }
+            .details {
+                padding: 2rem;
+            }
+            .block {
+                margin: 10px;
+            }
+            .row-3 {
                 display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 5rem;
-                margin: 7% 0% 5% 0%;
             }
-            button {
-                background-color: white;
-                color: black;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                border: 2px solid black;
-                font-size: 1.5rem;
-                width: 25rem;
-                height: 10rem;
+            .col-1, .col-2, .col-3 {
+                flex: 1;
             }
-            button:hover {
-                color: gray;
+            .reports, .graphs {
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-right: 10px;
+            }
+            .row-5, .row-6 {
+                display: flex;
+            }
+            table{
+                width: 100%;
+            }
+            th {
+                padding: 10px;
+                width: 100px;
+            }
+            tr {
+                height: 30px;  
+                text-align: center;
             }
 
-            button:active {
-                color: grey;
-                margin-left: 1rem;
-            }
         </style>
     </head>
     <body >
@@ -53,14 +61,70 @@
                     <a class="active" href="#">About Us</a>
                     <a href="#">Contact</a>
                 </nav>
-                <a href="/account" class="donate-link">Account</a>
+                <a href="/logout" class="donate-link">LogOut</a>
             </div>
         </header>
+        
+        <div class="accountContainer">
+            <div class="details">
+                <div class="label2 block row-1">Account Session :</div><hr>
+                <div class="txt block row-2 col-1">Name : {{ user.name }}</div>
+                <div class="block row-3">
+                    <div class="txt col-1">Email : {{ user.email }}</div>
+                    <div class="txt col-2">Age : {{ user.age }}</div>
+                    <div class="txt col-3">Gender : {{ user.gender }}</div>
+                </div>
+                <br>
+                <div class="label2 block row-4">Your Mental Health Report :</div><hr>
+                <div class="block row-5">
+                    <div class="reports col-1">
+                        <span class="txt">Character Result:</span>
+                        <table border="1" id="CharacterResult"><hr>
+                            <thead>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Result</th>
+                            </thead>
+                            <tbody>
+                                {% for charRes in charResult %}
+                                <tr>
+                                    <td>{{charRes.date}}</td>
+                                    <td>{{charRes.time}}</td>
+                                    <td>{{charRes.result}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="reports col-2">
+                        <span class="txt">Disorder Result:</span><hr>
+                            <table border="1" id="disorderResult">
+                                <thead>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Result</th>
+                                </thead>
+                                <tbody>
+                                    {% for disRes in disResult %}
+                                    <tr>
+                                        <td>{{disRes.date}}</td>
+                                        <td>{{disRes.time}}</td>
+                                        <td>{{disRes.result}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="block row-6">
+                    <div class="graphs col-1">Graph1</div>
+                    <div class="graphs col-2">Graph2</div>
+                </div>
+            </div>  
+        </div>
+        
 
-        <div class="container">
-            <a href="/character_form"><button type="button">Know Your Character</button></a>
-            <a href="/disorder_form"><button type="button">Know Your Disorder</button></a>
-        </div><br><br><br>
+        
         <footer>
             <div class="footer">
                 <div class="row">

@@ -1,29 +1,141 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-<head>
-    <title>User List</title>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>AdminPage</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/questions.css">
+        <style>
+            th {
+                padding: 10px;
+                width: 100px;
+            }
+            tr {
+                height: 30px;  
+                text-align: center;
+            }
 
-    <h1>User List</h1>
+            #addQuestionRow #newQuestionText,
+            #addQuestionRow #newDisQuestionText {
+                width: 900px;
+            }
+            #addQuestionRow #newQuestionId,
+            #addQuestionRow #newDisQuestionId {
+                width: 80%;
+            }
 
-    <ul>
-        {% for user in users %}
-        <li>{{ user.username }} - {{ user.email }}</li>
-        {% endfor %}
-    </ul>
+        </style>
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-    <h2>Registration Form</h2>
+        <div class="container">
+            <header>
+                <span><a href="/"><button class="name" type="button">SAMAM</button></a></span>
+                <div>
+                    <nav>
+                        <ul>
+                            <li><a href="#Skills"><button type="button">AboutUs</button></a></li>
+                            <li><a href="#Contact"><button type="button">Contact</button></a></li>
+                            <li>
+                                <form action="/login_form" method="post">
+                                    <button type="submit" value="submit">Admin Page</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>  
+                </div>
+            </header><hr>
+        </div>
+        <h1>Admin Page</h1>
+        <!-- Users Table -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.age }}</td>
+                    <td>{{ user.gender }}</td>
+                    <td>{{ user.date }}</td>
+                    <td>{{ user.time }}</td>
+                    <td>{{ user.latitude }}</td>
+                    <td>{{ user.longitude }}</td>
+                    <td>
+                        <button type="button" onclick="deleteRow(this, '{{ user.id }}')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <form action="/register" method="post">
-        <label for="username">Name:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <h1>Character Questions :</h1>
+        <table border="1" id="CharacterQuestionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Question</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in CharacterQuestions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.question }}</td>
+                    <td>
+                        <button type="button" onclick="editQuestion(this, '{{ question.id }}','CharacterQuestionsTable')">Edit</button>
+                    </td>    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <input type="submit" value="Register">
-    </form>
-
-</body>
+        <h1>Disorder Questions :</h1>
+        <table border="1" id="DisorderQuestionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Question</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in DisorderQuestions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.question }}</td>
+                    <td>
+                        <button type="button" onclick="editQuestion(this, '{{ question.id }}','DisorderQuestionsTable')">Edit</button>
+                    </td>    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script src="../static/script.js"></script>
+    </body>
 </html>
