@@ -198,7 +198,7 @@ def login_form():
 def account():
     try:
         user_email = session.get('user_email')
-        user = session.get(UserDetails, user_email)
+        user = UserDetails.query.get(user_email)
         if user_email == 'eligetivignesh@gmail.com':
             return redirect(url_for('adminPage'))
         charResult = CharacterResult.query.filter_by(email=user_email).all()
@@ -219,7 +219,7 @@ def logout():
 @app.route('/adminPage', methods=['GET', 'POST'])
 def adminPage():
     user_email = session.get('user_email')
-    user = session.get(UserDetails, user_email)
+    user = UserDetails.query.get(user_email)
     CharQuestions = CharacterQuestions.query.all()
     users = UserDetails.query.all()
     DisQuestions = DisorderQuestions.query.all()
@@ -281,7 +281,7 @@ def disorder_form():
 @app.route('/character_submit', methods=['GET', 'POST'])	
 def characterSubmit():
     user_email = session.get('user_email')
-    user = session.get(UserDetails, user_email)
+    user = UserDetails.query.get(user_email)
     questions = CharacterQuestions.query.all()
     noOfQuestions = len(questions)
     question_array = [0] * noOfQuestions
@@ -320,7 +320,7 @@ def characterSubmit():
 @app.route('/disorder_submit', methods=['GET', 'POST'])
 def disorderSubmit():
     user_email = session.get('user_email')  
-    latest_user = session.get(UserDetails, user_email)
+    latest_user = UserDetails.query.get(user_email)
     questions = DisorderQuestions.query.all()
     noOfQuestions = len(questions)
     question_array = [0] * noOfQuestions
