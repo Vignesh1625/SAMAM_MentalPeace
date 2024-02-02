@@ -11,7 +11,87 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../static/mainPage.css">
-        <link rel="stylesheet" href="../static/Questions.css">
+        <style>
+            .QuestionsContainer{
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                border: 1px solid black;
+                border-radius: 10px;
+                margin: 1rem 3rem 1rem 3rem;
+                column-gap: 3rem;
+            }
+            header{
+                width: 105%;
+            }
+            .questionDoc{
+                background-image: url('https://thumbs.dreamstime.com/b/male-doctor-question-mark-physician-white-uniform-standing-vector-isolated-ask-professional-medicine-occupation-157379450.jpg');
+                background-size: cover;
+            }
+            .label2{
+                margin-bottom: 3rem;
+            }
+            form{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 0rem;
+                margin: 0rem 4rem 0rem 1rem;
+                padding: .3rem;
+                border: none;
+                width: 80%;
+            }
+            input,button{
+                width: 100%;
+                padding: .5rem;
+                margin: .3rem;
+            }
+            .submit{
+                background-color: darkgray;
+                color: white;
+                font-weight: bolder;
+                font-size: 1.2rem;
+                border: none;
+                border-radius: 5px;
+                width: 105%;
+                margin-bottom: 5rem;
+            }
+
+            @media only screen and (max-width: 767px) {
+                .QuestionsContainer {
+                    grid-template-columns: 1fr; /* Change to a single column layout */
+                    margin: 2rem 0rem 1rem 1rem ; /* Adjust margin for better spacing */
+                    column-gap: 1rem; /* Adjust column gap for better spacing */
+                }
+
+                .questionDoc {
+                    display: none; /* Hide the image */
+                }
+                .questionForm{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .label2 {
+                    font-size: 1.1rem;
+                    margin-bottom: 1rem; /* Adjust margin for better spacing */
+                    margin-left: 1rem;
+                }
+
+                form {
+                    grid-template-columns: 1fr; /* Change to a single column layout */
+                    margin-left: 1rem; /* Adjust margin for better spacing */
+                }
+
+                input, button {
+                    width: 100%;
+                    margin: 0.3rem 0; /* Adjust margin for better spacing */
+                }
+
+                .submit {
+                    width: 106%;
+                    margin-bottom: 2rem; /* Adjust margin for better spacing */
+                }
+            }
+
+        </style>
     </head>
     <body >
 
