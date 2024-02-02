@@ -1,0 +1,110 @@
+.accountContainer {
+    margin: 4rem;
+}
+.details {
+    padding: 2rem;
+}
+.block {
+    margin: 10px;
+}
+.row-3 {
+    display: flex;
+}
+.col-1, .col-2, .col-3 {
+    flex: 1;
+}
+.reports, .questions {
+    padding: 10px;
+    margin-right: 40px;
+    margin-left: 10px;
+}
+.row-5, .row-7 {
+    display: flex;
+}
+.label2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+table{
+    width: 100%;
+}
+th {
+    padding: 10px;
+    width: 100px;
+}
+tr {
+    height: 30px;  
+    text-align: center;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 767px) {
+.accountContainer {
+    margin: 0.5rem;
+}
+
+.details {
+    padding: 1rem;
+}
+
+.block {
+    margin: 5px;
+}
+
+.row-3 {
+    flex-direction: column;
+}
+
+.col-1, .col-2, .col-3 {
+    flex: 1;
+    width: 100%;
+}
+
+.reports, .questions {
+    padding: 5px;
+    flex-shrink: 0;
+}
+.row-5 {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.row-5, .row-7 {
+    flex-direction: column;
+}
+
+.label2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+.txt{
+    font-size: 1rem;
+}
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 5px;
+    font-size: .8rem;
+}
+
+tr {
+    height: auto;
+    text-align: left;
+}
+.row-7 {
+    flex-direction: column;
+}
+
+.col-1, .col-2 {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.questions {
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+}

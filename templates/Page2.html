@@ -15,10 +15,7 @@
             .container{
                 display: flex;
                 flex-direction: row;
-                justify-content: center;
-                align-items: center;
                 gap: 5rem;
-                margin: 7% 0% 5% 0%;
             }
             button {
                 background-color: white;
@@ -37,7 +34,25 @@
 
             button:active {
                 color: grey;
-                margin-left: 1rem;
+            }
+            @media only screen and (max-width: 767px){
+                .container{
+                    flex-direction: column;
+                    gap: 1rem;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 30%;
+                }
+                button {
+                    width: 100%;
+                    font-size: 1.3rem;
+                    width: 15rem;
+                    height: 7rem;
+                }
+                .footer {
+                    position: fixed;
+                    bottom: 0;
+                }
             }
         </style>
     </head>
@@ -79,16 +94,6 @@
                             <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
                         </svg>
                     </a>
-                </div>
-            
-                <div class="row">
-                    <ul>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Our Services</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Career</a></li>
-                    </ul>
                 </div>
             
                 <div class="row">

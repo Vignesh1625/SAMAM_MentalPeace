@@ -6,10 +6,12 @@
     margin: 1rem 3rem 1rem 3rem;
     column-gap: 3rem;
 }
+header{
+    width: 105%;
+}
 .questionDoc{
     background-image: url('https://thumbs.dreamstime.com/b/male-doctor-question-mark-physician-white-uniform-standing-vector-isolated-ask-professional-medicine-occupation-157379450.jpg');
     background-size: cover;
-    background-color: aqua;
 }
 .label2{
     margin-bottom: 3rem;
@@ -39,6 +41,38 @@ input,button{
     margin-bottom: 5rem;
 }
 
-.Questions{
-    
+@media only screen and (max-width: 767px) {
+    .QuestionsContainer {
+        grid-template-columns: 1fr; /* Change to a single column layout */
+        margin: 2rem 0rem 1rem 1rem ; /* Adjust margin for better spacing */
+        column-gap: 1rem; /* Adjust column gap for better spacing */
+    }
+
+    .questionDoc {
+        display: none; /* Hide the image */
+    }
+    .questionForm{
+        display: flex;
+        flex-direction: column;
+    }
+    .label2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem; /* Adjust margin for better spacing */
+        margin-left: 1rem;
+    }
+
+    form {
+        grid-template-columns: 1fr; /* Change to a single column layout */
+        margin-left: 1rem; /* Adjust margin for better spacing */
+    }
+
+    input, button {
+        width: 100%;
+        margin: 0.3rem 0; /* Adjust margin for better spacing */
+    }
+
+    .submit {
+        width: 106%;
+        margin-bottom: 2rem; /* Adjust margin for better spacing */
+    }
 }

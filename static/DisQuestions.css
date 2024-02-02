@@ -15,3 +15,38 @@ form{
     border: none;
     text-align: left;
 }
+@media only screen and (max-width: 767px) {
+    header{
+        width: 105%;
+    }
+    .QuestionsContainer{
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin: 2rem 0rem 1rem 1rem;
+    }
+    .questionForm{
+        display: flex;
+        flex-direction: column;
+        border: none;
+    }
+    .txt{
+        font-size: 1.1rem;
+    }
+    .label2 {
+        font-size: 1.1rem;
+        margin-bottom: 0rem; /* Adjust margin for better spacing */
+        margin-left: .5rem;
+    }
+
+    input, button {
+        width: 100%;
+        margin: 0rem 1rem 0.3rem 0rem; /* Adjust margin for better spacing */
+    }
+
+    .submit {
+        width: 100%;
+        margin: 0rem 1rem 0.3rem 0rem; /* Adjust margin for better spacing */
+    }
+}
