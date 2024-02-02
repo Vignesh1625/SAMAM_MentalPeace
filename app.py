@@ -9,6 +9,7 @@ import json
 import pickle
 import pytz
 import bcrypt
+import joblib
 
 
 app = Flask(__name__)
@@ -102,14 +103,10 @@ api_key = "0c6367c0ffc59182e0e17fbbe7ced418"
 latitude = 0.0
 longitude = 0.0
 #loding models
-with open('./data/atmospherepickle.pkl', 'rb') as f:
-    atmospherePickle = pickle.load(f)
 
-with open('./data/characterpicle.pkl', 'rb') as f:
-    characterPickle = pickle.load(f)
-    
-with open('./data/disorderpickle.pkl', 'rb') as f:
-    disorderPickle = pickle.load(f)
+atmospherePickle = joblib.load('./Models/atmosphereModel.joblib')
+characterPickle = joblib.load('./Models/characterModel.joblib')
+disorderPickle = joblib.load('./Models/disorderModel.joblib')
 
 def celsius_to_fahrenheit(celsius):
     fahrenheit = (celsius * 9/5) + 32
