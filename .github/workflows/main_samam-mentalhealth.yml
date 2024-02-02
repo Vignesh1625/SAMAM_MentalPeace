@@ -12,13 +12,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: '20.x'
 
       - name: Set up Python version
-        uses: actions/setup-python@v4  # Updated to use v4
+        uses: actions/setup-python@v3
         with:
           python-version: '3.12'
 
@@ -35,7 +36,7 @@ jobs:
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v4  # No change needed
+        uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
@@ -51,7 +52,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4  # No change needed
+        uses: actions/download-artifact@v3
         with:
           name: python-app
 
@@ -59,7 +60,7 @@ jobs:
         run: unzip release.zip
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3  # No change needed
+        uses: azure/webapps-deploy@v4
         id: deploy-to-webapp
         with:
           app-name: 'SAMAM-MentalHealth'
