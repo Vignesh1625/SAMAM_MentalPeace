@@ -10,6 +10,8 @@ import pickle
 import pytz
 import bcrypt
 import joblib
+import warnings
+warnings.filterwarnings("ignore")
 
 
 app = Flask(__name__)
@@ -311,8 +313,8 @@ def characterSubmit():
         )
         db.session.add(new_result)
         db.session.commit()
-
-        result = "Your character prediction is "+label_mapping[result[0]]
+        character_name = label_mapping[result[0]]
+        result = f"you are probably {character_name} person"
         return render_template('./resultPage.html', result=result, Name=user.name, gender=user.gender)
     except ValueError:
         return "Please enter valid numbers for the questions."
@@ -355,7 +357,7 @@ def disorderSubmit():
         db.session.add(new_result)
         db.session.commit()
 
-        result = f"You have {disorder_name} disorder"
+        result = f"you might have risk of {disorder_name} disorder"
         return render_template('./resultPage.html',result=result,Name = latest_user.name, gender = latest_user.gender)
     except ValueError:
         return "Please enter valid numbers for the questions."
